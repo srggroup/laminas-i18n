@@ -1,29 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\I18n;
 
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
-use Laminas\Translator\TranslatorInterface;
 
-/**
- * @psalm-import-type ServiceManagerConfiguration from ServiceManager
- * @final
- */
-class ConfigProvider
+/** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
+final class ConfigProvider
 {
     /**
      * Return general-purpose laminas-i18n configuration.
      *
-     * @return array{
-     *     dependencies: ServiceManagerConfiguration,
-     *     filters: ServiceManagerConfiguration,
-     *     validators: ServiceManagerConfiguration,
-     *     view_helpers: ServiceManagerConfiguration,
-     *     locale: string|null,
-     * }
+     * @return array{dependencies: ServiceManagerConfiguration}
      */
-    public function __invoke()
+    public function __invoke(): array
     {
         return [
             'dependencies' => $this->getDependencyConfig(),
@@ -39,20 +31,15 @@ class ConfigProvider
      *
      * @return ServiceManagerConfiguration
      */
-    public function getDependencyConfig()
+    public function getDependencyConfig(): array
     {
         return [
             'aliases'   => [
                 'TranslatorPluginManager' => Translator\LoaderPluginManager::class,
 
-                // Legacy Zend Framework aliases
-                'Zend\I18n\Translator\TranslatorInterface' => Translator\TranslatorInterface::class,
-                'Zend\I18n\Translator\LoaderPluginManager' => Translator\LoaderPluginManager::class,
-                Geography\CountryCodeListInterface::class  => Geography\DefaultCountryCodeList::class,
-                TranslatorInterface::class                 => Translator\TranslatorInterface::class,
+                Geography\CountryCodeListInterface::class => Geography\DefaultCountryCodeList::class,
             ],
             'factories' => [
-                Translator\TranslatorInterface::class   => Translator\TranslatorServiceFactory::class,
                 Translator\LoaderPluginManager::class   => Translator\LoaderPluginManagerFactory::class,
                 Geography\DefaultCountryCodeList::class => [Geography\DefaultCountryCodeList::class, 'create'],
             ],
@@ -78,12 +65,6 @@ class ConfigProvider
                 'numberparse'  => Filter\NumberParse::class,
                 'numberParse'  => Filter\NumberParse::class,
                 'NumberParse'  => Filter\NumberParse::class,
-
-                // Legacy Zend Framework aliases
-                'Zend\I18n\Filter\Alnum'        => Filter\Alnum::class,
-                'Zend\I18n\Filter\Alpha'        => Filter\Alpha::class,
-                'Zend\I18n\Filter\NumberFormat' => Filter\NumberFormat::class,
-                'Zend\I18n\Filter\NumberParse'  => Filter\NumberParse::class,
             ],
             'factories' => [
                 Filter\Alnum::class        => InvokableFactory::class,
@@ -103,47 +84,34 @@ class ConfigProvider
     {
         return [
             'aliases'   => [
-                'alnum'       => Validator\Alnum::class,
-                'Alnum'       => Validator\Alnum::class,
-                'alpha'       => Validator\Alpha::class,
-                'Alpha'       => Validator\Alpha::class,
-                'datetime'    => Validator\DateTime::class,
-                'dateTime'    => Validator\DateTime::class,
-                'DateTime'    => Validator\DateTime::class,
-                'float'       => Validator\IsFloat::class,
-                'Float'       => Validator\IsFloat::class,
-                'int'         => Validator\IsInt::class,
-                'Int'         => Validator\IsInt::class,
-                'isfloat'     => Validator\IsFloat::class,
-                'isFloat'     => Validator\IsFloat::class,
-                'IsFloat'     => Validator\IsFloat::class,
-                'isint'       => Validator\IsInt::class,
-                'isInt'       => Validator\IsInt::class,
-                'IsInt'       => Validator\IsInt::class,
-                'phonenumber' => Validator\PhoneNumber::class,
-                'phoneNumber' => Validator\PhoneNumber::class,
-                'PhoneNumber' => Validator\PhoneNumber::class,
-                'postcode'    => Validator\PostCode::class,
-                'postCode'    => Validator\PostCode::class,
-                'PostCode'    => Validator\PostCode::class,
-
-                // Legacy Zend Framework aliases
-                'Zend\I18n\Validator\Alnum'       => Validator\Alnum::class,
-                'Zend\I18n\Validator\Alpha'       => Validator\Alpha::class,
-                'Zend\I18n\Validator\DateTime'    => Validator\DateTime::class,
-                'Zend\I18n\Validator\IsFloat'     => Validator\IsFloat::class,
-                'Zend\I18n\Validator\IsInt'       => Validator\IsInt::class,
-                'Zend\I18n\Validator\PhoneNumber' => Validator\PhoneNumber::class,
-                'Zend\I18n\Validator\PostCode'    => Validator\PostCode::class,
+                'alnum'    => Validator\Alnum::class,
+                'Alnum'    => Validator\Alnum::class,
+                'alpha'    => Validator\Alpha::class,
+                'Alpha'    => Validator\Alpha::class,
+                'datetime' => Validator\DateTime::class,
+                'dateTime' => Validator\DateTime::class,
+                'DateTime' => Validator\DateTime::class,
+                'float'    => Validator\IsFloat::class,
+                'Float'    => Validator\IsFloat::class,
+                'int'      => Validator\IsInt::class,
+                'Int'      => Validator\IsInt::class,
+                'isfloat'  => Validator\IsFloat::class,
+                'isFloat'  => Validator\IsFloat::class,
+                'IsFloat'  => Validator\IsFloat::class,
+                'isint'    => Validator\IsInt::class,
+                'isInt'    => Validator\IsInt::class,
+                'IsInt'    => Validator\IsInt::class,
+                'postcode' => Validator\PostCode::class,
+                'postCode' => Validator\PostCode::class,
+                'PostCode' => Validator\PostCode::class,
             ],
             'factories' => [
-                Validator\Alnum::class       => InvokableFactory::class,
-                Validator\Alpha::class       => InvokableFactory::class,
-                Validator\DateTime::class    => InvokableFactory::class,
-                Validator\IsFloat::class     => InvokableFactory::class,
-                Validator\IsInt::class       => InvokableFactory::class,
-                Validator\PhoneNumber::class => InvokableFactory::class,
-                Validator\PostCode::class    => InvokableFactory::class,
+                Validator\Alnum::class    => InvokableFactory::class,
+                Validator\Alpha::class    => InvokableFactory::class,
+                Validator\DateTime::class => InvokableFactory::class,
+                Validator\IsFloat::class  => InvokableFactory::class,
+                Validator\IsInt::class    => InvokableFactory::class,
+                Validator\PostCode::class => InvokableFactory::class,
             ],
         ];
     }
@@ -176,14 +144,6 @@ class ConfigProvider
                 'translateplural'     => View\Helper\TranslatePlural::class,
                 'translatePlural'     => View\Helper\TranslatePlural::class,
                 'TranslatePlural'     => View\Helper\TranslatePlural::class,
-
-                // Legacy Zend Framework aliases
-                'Zend\I18n\View\Helper\CurrencyFormat'  => View\Helper\CurrencyFormat::class,
-                'Zend\I18n\View\Helper\DateFormat'      => View\Helper\DateFormat::class,
-                'Zend\I18n\View\Helper\NumberFormat'    => View\Helper\NumberFormat::class,
-                'Zend\I18n\View\Helper\Plural'          => View\Helper\Plural::class,
-                'Zend\I18n\View\Helper\Translate'       => View\Helper\Translate::class,
-                'Zend\I18n\View\Helper\TranslatePlural' => View\Helper\TranslatePlural::class,
             ],
             'factories' => [
                 View\Helper\CountryCodeDataList::class => View\Helper\Container\CountryCodeDataListFactory::class,

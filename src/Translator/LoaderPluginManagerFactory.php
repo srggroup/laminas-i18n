@@ -13,7 +13,7 @@ use function is_array;
  * @psalm-import-type ServiceManagerConfiguration from ServiceManager
  * @final
  */
-class LoaderPluginManagerFactory implements FactoryInterface
+class LoaderPluginManagerFactory
 {
     /**
      * laminas-servicemanager v2 options passed to factory.
@@ -35,7 +35,7 @@ class LoaderPluginManagerFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
-        $options     ??= [];
+        $options       ??= [];
         $pluginManager = new LoaderPluginManager($container, $options);
 
         // If this is in a laminas-mvc application, the ServiceListener will inject
@@ -65,10 +65,10 @@ class LoaderPluginManagerFactory implements FactoryInterface
     /**
      * laminas-servicemanager v2 factory to return LoaderPluginManager
      *
+     * @return LoaderPluginManager
      * @deprecated Since 2.16.0 - This component is no longer compatible with Service Manager v2.
      *             This method will be removed in version 3.0
      *
-     * @return LoaderPluginManager
      */
     public function createService(ServiceLocatorInterface $container)
     {
@@ -78,11 +78,11 @@ class LoaderPluginManagerFactory implements FactoryInterface
     /**
      * v2 support for instance creation options.
      *
+     * @param array $options
+     * @return void
      * @deprecated Since 2.16.0 - This component is no longer compatible with Service Manager v2.
      *             This method will be removed in version 3.0
      *
-     * @param array $options
-     * @return void
      */
     public function setCreationOptions(array $options)
     {

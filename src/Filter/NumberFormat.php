@@ -14,12 +14,12 @@ class NumberFormat extends NumberParse
     /**
      * Defined by Laminas\Filter\FilterInterface
      *
+     * @param mixed $value
+     * @return mixed
      * @see    \Laminas\Filter\FilterInterface::filter()
      *
-     * @param  mixed $value
-     * @return mixed
      */
-    public function filter($value)
+    public function filter($value): mixed
     {
         if (! is_scalar($value)) {
             return $value;
@@ -40,5 +40,15 @@ class NumberFormat extends NumberParse
         }
 
         return $value;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Will return null if $value is present in the deny-list. If $value is NOT present then it will return $value.
+     */
+    public function __invoke(mixed $value): mixed
+    {
+        return $this->filter($value);
     }
 }

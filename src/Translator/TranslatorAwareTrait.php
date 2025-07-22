@@ -2,6 +2,8 @@
 
 namespace Laminas\I18n\Translator;
 
+use Laminas\Translator\TranslatorInterface;
+
 trait TranslatorAwareTrait
 {
     /** @var TranslatorInterface|null */

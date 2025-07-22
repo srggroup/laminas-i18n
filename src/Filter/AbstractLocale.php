@@ -2,7 +2,7 @@
 
 namespace Laminas\I18n\Filter;
 
-use Laminas\Filter\AbstractFilter;
+use Laminas\Filter\FilterInterface;
 use Locale;
 
 /**
@@ -11,9 +11,8 @@ use Locale;
  *     ...
  * }
  * @template TOptions of Options
- * @extends AbstractFilter<TOptions>
  */
-abstract class AbstractLocale extends AbstractFilter
+abstract class AbstractLocale implements FilterInterface
 {
     public function __construct()
     {
@@ -22,7 +21,7 @@ abstract class AbstractLocale extends AbstractFilter
     /**
      * Sets the locale option
      *
-     * @param  string|null $locale
+     * @param string|null $locale
      * @return $this
      */
     public function setLocale($locale = null)

@@ -2,6 +2,8 @@
 
 namespace Laminas\I18n\Translator;
 
+use Laminas\Translator\TranslatorInterface;
+
 interface TranslatorAwareInterface
 {
     /**

@@ -49,12 +49,12 @@ class Alnum extends AbstractLocale
     /**
      * Sets the allowWhiteSpace option
      *
-     * @param  bool $flag
+     * @param bool $flag
      * @return $this
      */
     public function setAllowWhiteSpace($flag = true)
     {
-        $this->options['allow_white_space'] = (bool) $flag;
+        $this->options['allow_white_space'] = (bool)$flag;
         return $this;
     }
 
@@ -76,7 +76,7 @@ class Alnum extends AbstractLocale
      * @param mixed $value
      * @return string|list<string>|mixed
      */
-    public function filter($value)
+    public function filter($value): mixed
     {
         if (! is_scalar($value) && ! is_array($value)) {
             return $value;
@@ -96,8 +96,18 @@ class Alnum extends AbstractLocale
             $pattern = '/[^\p{L}\p{N}' . $whiteSpace . ']/u';
         }
 
-        $value = is_scalar($value) ? (string) $value : $value;
+        $value = is_scalar($value) ? (string)$value : $value;
 
         return preg_replace($pattern, '', $value);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Will return null if $value is present in the deny-list. If $value is NOT present then it will return $value.
+     */
+    public function __invoke(mixed $value): mixed
+    {
+        return $this->filter($value);
     }
 }

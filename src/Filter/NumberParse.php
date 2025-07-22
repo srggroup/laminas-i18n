@@ -64,7 +64,7 @@ class NumberParse extends AbstractLocale
     }
 
     /**
-     * @param  string|null $locale
+     * @param string|null $locale
      * @return $this
      */
     public function setLocale($locale = null)
@@ -75,12 +75,12 @@ class NumberParse extends AbstractLocale
     }
 
     /**
-     * @param  int $style
+     * @param int $style
      * @return $this
      */
     public function setStyle($style)
     {
-        $this->options['style'] = (int) $style;
+        $this->options['style'] = (int)$style;
         $this->formatter        = null;
         return $this;
     }
@@ -100,7 +100,7 @@ class NumberParse extends AbstractLocale
      */
     public function setType($type)
     {
-        $this->options['type'] = (int) $type;
+        $this->options['type'] = (int)$type;
         return $this;
     }
 
@@ -144,12 +144,12 @@ class NumberParse extends AbstractLocale
     /**
      * Defined by Laminas\Filter\FilterInterface
      *
+     * @param mixed $value
+     * @return mixed
      * @see    \Laminas\Filter\FilterInterface::filter()
      *
-     * @param  mixed $value
-     * @return mixed
      */
-    public function filter($value)
+    public function filter($value): mixed
     {
         if (! is_scalar($value) || is_bool($value)) {
             return $value;
@@ -174,5 +174,15 @@ class NumberParse extends AbstractLocale
         }
 
         return $value;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Will return null if $value is present in the deny-list. If $value is NOT present then it will return $value.
+     */
+    public function __invoke(mixed $value): mixed
+    {
+        return $this->filter($value);
     }
 }

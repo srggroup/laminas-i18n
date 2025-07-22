@@ -21,7 +21,7 @@ class Alpha extends Alnum
      * @param mixed $value
      * @return ($value is scalar ? string : ($value is list<scalar> ? list<string> : mixed))
      */
-    public function filter($value)
+    public function filter($value): mixed
     {
         if (! is_scalar($value) && ! is_array($value)) {
             return $value;
@@ -42,5 +42,15 @@ class Alpha extends Alnum
         }
 
         return preg_replace($pattern, '', $value);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Will return null if $value is present in the deny-list. If $value is NOT present then it will return $value.
+     */
+    public function __invoke(mixed $value): mixed
+    {
+        return $this->filter($value);
     }
 }

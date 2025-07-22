@@ -12,6 +12,7 @@ use Laminas\I18n\Translator\Loader\FileLoaderInterface;
 use Laminas\I18n\Translator\Loader\RemoteLoaderInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stdlib\ArrayUtils;
+use Laminas\Translator\TranslatorInterface;
 use Locale;
 use Traversable;
 
@@ -114,7 +115,7 @@ class Translator implements TranslatorInterface
     /**
      * Instantiate a translator
      *
-     * @param  array|Traversable $options
+     * @param array|Traversable $options
      * @return static
      * @throws Exception\InvalidArgumentException
      */
@@ -134,7 +135,7 @@ class Translator implements TranslatorInterface
 
         // locales
         if (isset($options['locale'])) {
-            $locales = (array) $options['locale'];
+            $locales = (array)$options['locale'];
             $translator->setLocale(array_shift($locales));
             if ($locales) {
                 $translator->setFallbackLocale(array_shift($locales));
@@ -240,7 +241,7 @@ class Translator implements TranslatorInterface
     /**
      * Set the default locale.
      *
-     * @param  string|null $locale
+     * @param string|null $locale
      * @return $this
      */
     public function setLocale($locale)
@@ -267,7 +268,7 @@ class Translator implements TranslatorInterface
     /**
      * Set the fallback locale.
      *
-     * @param  string|null $locale
+     * @param string|null $locale
      * @return $this
      */
     public function setFallbackLocale($locale)
@@ -340,15 +341,15 @@ class Translator implements TranslatorInterface
     /**
      * Translate a message.
      *
-     * @param  string      $message
-     * @param  string      $textDomain
-     * @param  string|null $locale
+     * @param string $message
+     * @param string $textDomain
+     * @param string|null $locale
      * @return string
      */
     public function translate($message, $textDomain = 'default', $locale = null)
     {
         $locale      = $locale === '' ? null : $locale;
-        $locale    ??= $this->getLocale();
+        $locale      ??= $this->getLocale();
         $translation = $this->getTranslatedMessage($message, $locale, $textDomain);
 
         if ($translation !== null && $translation !== '') {
@@ -368,11 +369,11 @@ class Translator implements TranslatorInterface
     /**
      * Translate a plural message.
      *
-     * @param  string      $singular
-     * @param  string      $plural
-     * @param  int         $number
-     * @param  string      $textDomain
-     * @param  string|null $locale
+     * @param string $singular
+     * @param string $plural
+     * @param int $number
+     * @param string $textDomain
+     * @param string|null $locale
      * @return string
      * @throws Exception\OutOfBoundsException
      */
@@ -383,7 +384,7 @@ class Translator implements TranslatorInterface
         $textDomain = 'default',
         $locale = null
     ) {
-        $locale    ??= $this->getLocale();
+        $locale      ??= $this->getLocale();
         $translation = $this->getTranslatedMessage($singular, $locale, $textDomain);
 
         if (is_string($translation)) {
@@ -421,9 +422,9 @@ class Translator implements TranslatorInterface
      * Get a translated message.
      *
      * @triggers getTranslatedMessage.missing-translation
-     * @param    string $message
-     * @param    string $locale
-     * @param    string $textDomain
+     * @param string $message
+     * @param string $locale
+     * @param string $textDomain
      * @return   string|null
      */
     protected function getTranslatedMessage(
@@ -483,10 +484,10 @@ class Translator implements TranslatorInterface
     /**
      * Add a translation file.
      *
-     * @param  string      $type
-     * @param  string      $filename
-     * @param  string      $textDomain
-     * @param  string|null $locale
+     * @param string $type
+     * @param string $filename
+     * @param string $textDomain
+     * @param string|null $locale
      * @return $this
      */
     public function addTranslationFile(
@@ -512,10 +513,10 @@ class Translator implements TranslatorInterface
     /**
      * Add multiple translations with a file pattern.
      *
-     * @param  string $type
-     * @param  string $baseDir
-     * @param  string $pattern
-     * @param  string $textDomain
+     * @param string $type
+     * @param string $baseDir
+     * @param string $pattern
+     * @param string $textDomain
      * @return $this
      */
     public function addTranslationFilePattern(
@@ -540,8 +541,8 @@ class Translator implements TranslatorInterface
     /**
      * Add remote translations.
      *
-     * @param  string $type
-     * @param  string $textDomain
+     * @param string $type
+     * @param string $textDomain
      * @return $this
      */
     public function addRemoteTranslations($type, $textDomain = 'default')
@@ -558,8 +559,8 @@ class Translator implements TranslatorInterface
     /**
      * Get the cache identifier for a specific textDomain and locale.
      *
-     * @param  string $textDomain
-     * @param  string $locale
+     * @param string $textDomain
+     * @param string $locale
      * @return string
      */
     public function getCacheId($textDomain, $locale)
@@ -570,8 +571,8 @@ class Translator implements TranslatorInterface
     /**
      * Clears the cache for a specific textDomain and locale.
      *
-     * @param  string $textDomain
-     * @param  string $locale
+     * @param string $textDomain
+     * @param string $locale
      * @return bool
      */
     public function clearCache($textDomain, $locale)
@@ -586,10 +587,10 @@ class Translator implements TranslatorInterface
      * Load messages for a given language and domain.
      *
      * @triggers loadMessages.no-messages-loaded
-     * @param    string $textDomain
-     * @param    string $locale
-     * @throws   Exception\RuntimeException
+     * @param string $textDomain
+     * @param string $locale
      * @return   void
+     * @throws   Exception\RuntimeException
      */
     protected function loadMessages($textDomain, $locale)
     {
@@ -607,10 +608,10 @@ class Translator implements TranslatorInterface
             }
         }
 
-        $messagesLoaded  = 0;
-        $messagesLoaded |= (int) $this->loadMessagesFromRemote($textDomain, $locale);
-        $messagesLoaded |= (int) $this->loadMessagesFromPatterns($textDomain, $locale);
-        $messagesLoaded |= (int) $this->loadMessagesFromFiles($textDomain, $locale);
+        $messagesLoaded = 0;
+        $messagesLoaded |= (int)$this->loadMessagesFromRemote($textDomain, $locale);
+        $messagesLoaded |= (int)$this->loadMessagesFromPatterns($textDomain, $locale);
+        $messagesLoaded |= (int)$this->loadMessagesFromFiles($textDomain, $locale);
 
         if ($messagesLoaded === 0) {
             $discoveredTextDomain = null;
@@ -641,8 +642,8 @@ class Translator implements TranslatorInterface
     /**
      * Load messages from remote sources.
      *
-     * @param  string $textDomain
-     * @param  string $locale
+     * @param string $textDomain
+     * @param string $locale
      * @return bool
      * @throws Exception\RuntimeException When specified loader is not a remote loader.
      */
@@ -674,8 +675,8 @@ class Translator implements TranslatorInterface
     /**
      * Load messages from patterns.
      *
-     * @param  string $textDomain
-     * @param  string $locale
+     * @param string $textDomain
+     * @param string $locale
      * @return bool
      * @throws Exception\RuntimeException When specified loader is not a file loader.
      */
@@ -711,8 +712,8 @@ class Translator implements TranslatorInterface
     /**
      * Load messages from files.
      *
-     * @param  string $textDomain
-     * @param  string $locale
+     * @param string $textDomain
+     * @param string $locale
      * @return bool
      * @throws Exception\RuntimeException When specified loader is not a file loader.
      */
@@ -750,7 +751,7 @@ class Translator implements TranslatorInterface
     /**
      * Return all the messages.
      *
-     * @param string      $textDomain
+     * @param string $textDomain
      * @param string|null $locale
      * @return mixed
      */

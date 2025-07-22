@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\I18n\Translator;
 
 use Laminas\I18n\Exception;
@@ -58,38 +60,21 @@ use function sprintf;
  */
 class LoaderPluginManager extends AbstractPluginManager
 {
-    /** @inheritDoc */
-    protected $aliases = [
-        'gettext'  => Loader\Gettext::class,
-        'getText'  => Loader\Gettext::class,
-        'GetText'  => Loader\Gettext::class,
-        'ini'      => Loader\Ini::class,
-        'phparray' => Loader\PhpArray::class,
-        'phpArray' => Loader\PhpArray::class,
-        'PhpArray' => Loader\PhpArray::class,
-
-        // Legacy Zend Framework aliases
-        'Zend\I18n\Translator\Loader\Gettext'  => Loader\Gettext::class,
-        'Zend\I18n\Translator\Loader\Ini'      => Loader\Ini::class,
-        'Zend\I18n\Translator\Loader\PhpArray' => Loader\PhpArray::class,
-
-        // v2 normalized FQCNs
-        'zendi18ntranslatorloadergettext'  => Loader\Gettext::class,
-        'zendi18ntranslatorloaderini'      => Loader\Ini::class,
-        'zendi18ntranslatorloaderphparray' => Loader\PhpArray::class,
-    ];
-
-    /** @inheritDoc */
-    protected $factories = [
-        Loader\Gettext::class  => InvokableFactory::class,
-        Loader\Ini::class      => InvokableFactory::class,
-        Loader\PhpArray::class => InvokableFactory::class,
-        // Legacy (v2) due to alias resolution; canonical form of resolved
-        // alias is used to look up the factory, while the non-normalized
-        // resolved alias is used as the requested name passed to the factory.
-        'laminasi18ntranslatorloadergettext'  => InvokableFactory::class,
-        'laminasi18ntranslatorloaderini'      => InvokableFactory::class,
-        'laminasi18ntranslatorloaderphparray' => InvokableFactory::class,
+    private const DEFAULT_CONFIGURATION = [
+        'factories' => [
+            Loader\Gettext::class  => InvokableFactory::class,
+            Loader\Ini::class      => InvokableFactory::class,
+            Loader\PhpArray::class => InvokableFactory::class,
+        ],
+        'aliases'   => [
+            'gettext'  => Loader\Gettext::class,
+            'getText'  => Loader\Gettext::class,
+            'GetText'  => Loader\Gettext::class,
+            'ini'      => Loader\Ini::class,
+            'phparray' => Loader\PhpArray::class,
+            'phpArray' => Loader\PhpArray::class,
+            'PhpArray' => Loader\PhpArray::class,
+        ]
     ];
 
     /**
@@ -98,12 +83,12 @@ class LoaderPluginManager extends AbstractPluginManager
      * Checks that the filter loaded is an instance of
      * Loader\FileLoaderInterface or Loader\RemoteLoaderInterface.
      *
-     * @param  mixed $plugin
+     * @param mixed $plugin
      * @return void
      * @throws Exception\RuntimeException If invalid.
      * @psalm-assert InstanceType $plugin
      */
-    public function validate($plugin)
+    public function validate($plugin): void
     {
         if ($plugin instanceof FileLoaderInterface || $plugin instanceof RemoteLoaderInterface) {
             // we're okay
@@ -123,18 +108,19 @@ class LoaderPluginManager extends AbstractPluginManager
      *
      * Proxies to `validate()`.
      *
-     * @deprecated Since 2.16.0 - This component is no longer compatible with Service Manager v2.
-     *             This method will be removed in version 3.0
-     *
      * @param mixed $plugin
      * @throws Exception\RuntimeException
      * @psalm-assert InstanceType $plugin
+     * @deprecated Since 2.16.0 - This component is no longer compatible with Service Manager v2.
+     *             This method will be removed in version 3.0
+     *
      */
     public function validatePlugin($plugin)
     {
         try {
             $this->validate($plugin);
-        } catch (InvalidServiceException) {
+        }
+        catch (InvalidServiceException) {
             throw new Exception\RuntimeException(sprintf(
                 'Plugin of type %s is invalid; must implement %s or %s',
                 get_debug_type($plugin),
