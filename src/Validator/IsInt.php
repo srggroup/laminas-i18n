@@ -30,7 +30,7 @@ class IsInt extends AbstractValidator
      *
      * @var array<string, string>
      */
-    protected $messageTemplates = [
+    protected array $messagetemplates = [
         self::INVALID        => 'Invalid type given. String or integer expected',
         self::NOT_INT        => 'The input does not appear to be an integer',
         self::NOT_INT_STRICT => 'The input is not strictly an integer',

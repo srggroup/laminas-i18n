@@ -34,7 +34,7 @@ class IsFloat extends AbstractValidator
      *
      * @var array<string, string>
      */
-    protected $messageTemplates = [
+    protected array $messagetemplates = [
         self::INVALID   => 'Invalid type given. String, integer or float expected',
         self::NOT_FLOAT => 'The input does not appear to be a float',
     ];

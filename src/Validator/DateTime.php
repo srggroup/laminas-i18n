@@ -23,7 +23,7 @@ class DateTime extends AbstractValidator
      *
      * @var array<string, string>
      */
-    protected $messageTemplates = [
+    protected array $messagetemplates = [
         self::INVALID          => 'Invalid type given. String expected',
         self::INVALID_DATETIME => 'The input does not appear to be a valid datetime',
     ];

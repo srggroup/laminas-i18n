@@ -31,7 +31,7 @@ class Alnum extends AbstractValidator
      *
      * @var array<string, string>
      */
-    protected $messageTemplates = [
+    protected array $messagetemplates = [
         self::INVALID      => 'Invalid type given. String, integer or float expected',
         self::NOT_ALNUM    => 'The input contains characters which are non alphabetic and no digits',
         self::STRING_EMPTY => 'The input is an empty string',
