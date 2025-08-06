@@ -342,7 +342,7 @@ class PostCode extends AbstractValidator
      * @return bool
      * @throws Exception\InvalidArgumentException
      */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         if (! is_string($value) && ! is_int($value)) {
             $this->error(self::INVALID);

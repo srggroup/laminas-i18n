@@ -15,8 +15,8 @@ use function is_string;
 /** @final */
 class Alnum extends AbstractValidator
 {
-    public const INVALID      = 'alnumInvalid';
-    public const NOT_ALNUM    = 'notAlnum';
+    public const INVALID = 'alnumInvalid';
+    public const NOT_ALNUM = 'notAlnum';
     public const STRING_EMPTY = 'alnumStringEmpty';
 
     /**
@@ -57,16 +57,16 @@ class Alnum extends AbstractValidator
         parent::__construct($options);
 
         if (is_scalar($allowWhiteSpace)) {
-            $this->options['allowWhiteSpace'] = (bool) $allowWhiteSpace;
+            $this->options['allowWhiteSpace'] = (bool)$allowWhiteSpace;
         }
     }
 
     /**
      * Returns the allowWhiteSpace option
      *
+     * @return bool
      * @deprecated Since 2.28.0 - This method will be removed in 3.0
      *
-     * @return bool
      */
     public function getAllowWhiteSpace()
     {
@@ -76,14 +76,14 @@ class Alnum extends AbstractValidator
     /**
      * Sets the allowWhiteSpace option
      *
-     * @deprecated Since 2.28.0 - This method will be removed in 3.0. Provide options to the constructor instead.
-     *
      * @param bool $allowWhiteSpace
      * @return $this
+     * @deprecated Since 2.28.0 - This method will be removed in 3.0. Provide options to the constructor instead.
+     *
      */
     public function setAllowWhiteSpace($allowWhiteSpace)
     {
-        $this->options['allowWhiteSpace'] = (bool) $allowWhiteSpace;
+        $this->options['allowWhiteSpace'] = (bool)$allowWhiteSpace;
         return $this;
     }
 
@@ -93,7 +93,7 @@ class Alnum extends AbstractValidator
      * @param mixed $value
      * @return bool
      */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         if (! is_string($value) && ! is_int($value) && ! is_float($value)) {
             $this->error(self::INVALID);

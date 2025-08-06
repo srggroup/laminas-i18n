@@ -26,7 +26,7 @@ use function str_replace;
 /** @final */
 class IsFloat extends AbstractValidator
 {
-    public const INVALID   = 'floatInvalid';
+    public const INVALID = 'floatInvalid';
     public const NOT_FLOAT = 'notFloat';
 
     /**
@@ -76,9 +76,9 @@ class IsFloat extends AbstractValidator
     /**
      * Returns the set locale
      *
+     * @return string
      * @deprecated Since 2.28.0 - This method will be removed in 3.0
      *
-     * @return string
      */
     public function getLocale()
     {
@@ -91,10 +91,10 @@ class IsFloat extends AbstractValidator
     /**
      * Sets the locale to use
      *
-     * @deprecated Since 2.28.0 - This method will be removed in 3.0. Provide options to the constructor instead.
-     *
      * @param string|null $locale
      * @return $this
+     * @deprecated Since 2.28.0 - This method will be removed in 3.0. Provide options to the constructor instead.
+     *
      */
     public function setLocale($locale)
     {
@@ -110,7 +110,7 @@ class IsFloat extends AbstractValidator
      * @return bool
      * @throws Exception\InvalidArgumentException
      */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         if (! is_scalar($value) || is_bool($value)) {
             $this->error(self::INVALID);
@@ -136,7 +136,8 @@ class IsFloat extends AbstractValidator
             if (intl_is_failure($formatter->getErrorCode())) {
                 throw new Exception\InvalidArgumentException($formatter->getErrorMessage());
             }
-        } catch (IntlException $intlException) {
+        }
+        catch (IntlException $intlException) {
             throw new Exception\InvalidArgumentException($intlException->getMessage(), 0, $intlException);
         }
 
@@ -207,14 +208,14 @@ class IsFloat extends AbstractValidator
             $suffix      = $formatter->getTextAttribute(NumberFormatter::NEGATIVE_SUFFIX);
             $suffix      = $suffix !== false
                 ? '['
-                    . preg_quote(
-                        $formatter->getTextAttribute(NumberFormatter::POSITIVE_SUFFIX)
-                        . $formatter->getTextAttribute(NumberFormatter::NEGATIVE_SUFFIX)
-                        . $formatter->getSymbol(NumberFormatter::PLUS_SIGN_SYMBOL)
-                        . $formatter->getSymbol(NumberFormatter::MINUS_SIGN_SYMBOL),
-                        '/'
-                    )
-                    . ']{0,3}'
+                . preg_quote(
+                    $formatter->getTextAttribute(NumberFormatter::POSITIVE_SUFFIX)
+                    . $formatter->getTextAttribute(NumberFormatter::NEGATIVE_SUFFIX)
+                    . $formatter->getSymbol(NumberFormatter::PLUS_SIGN_SYMBOL)
+                    . $formatter->getSymbol(NumberFormatter::MINUS_SIGN_SYMBOL),
+                    '/'
+                )
+                . ']{0,3}'
                 : '';
             $numberRange = '\p{N}';
             $useUnicode  = 'u';
@@ -263,8 +264,8 @@ class IsFloat extends AbstractValidator
 
         if (
             (preg_match($lnumSearch, $unGroupedValue)
-            || preg_match($dnumSearch, $unGroupedValue)
-            || preg_match($expDnumSearch, $unGroupedValue))
+                || preg_match($dnumSearch, $unGroupedValue)
+                || preg_match($expDnumSearch, $unGroupedValue))
             && false === $this->wrapper->strpos($lastStringGroup, $groupSeparator)
         ) {
             return true;

@@ -271,7 +271,7 @@ class DateTime extends AbstractValidator
      * @return bool
      * @throws ValidatorException\InvalidArgumentException
      */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         if (! is_string($value)) {
             $this->error(self::INVALID);

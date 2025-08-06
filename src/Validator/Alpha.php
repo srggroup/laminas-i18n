@@ -46,7 +46,7 @@ class Alpha extends Alnum
      * @param mixed $value
      * @return bool
      */
-    public function isValid($value)
+    public function isValid(mixed $value): bool
     {
         if (! is_string($value)) {
             $this->error(self::INVALID);
