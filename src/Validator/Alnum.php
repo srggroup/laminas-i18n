@@ -54,7 +54,7 @@ class Alnum extends AbstractValidator
     public function __construct($allowWhiteSpace = false)
     {
         $options = is_array($allowWhiteSpace) ? $allowWhiteSpace : null;
-        parent::__construct($options);
+        parent::__construct($options ?? []);
 
         if (is_scalar($allowWhiteSpace)) {
             $this->options['allowWhiteSpace'] = (bool)$allowWhiteSpace;
