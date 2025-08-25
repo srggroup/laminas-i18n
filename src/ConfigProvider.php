@@ -6,6 +6,7 @@ namespace Laminas\I18n;
 
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
+use Laminas\Translator\TranslatorInterface;
 
 /** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
 final class ConfigProvider
@@ -40,6 +41,7 @@ final class ConfigProvider
                 Geography\CountryCodeListInterface::class => Geography\DefaultCountryCodeList::class,
             ],
             'factories' => [
+                TranslatorInterface::class              => Translator\TranslatorServiceFactory::class,
                 Translator\LoaderPluginManager::class   => Translator\LoaderPluginManagerFactory::class,
                 Geography\DefaultCountryCodeList::class => [Geography\DefaultCountryCodeList::class, 'create'],
             ],
